@@ -73,4 +73,37 @@ class CardController extends AbstractController
             'cards' => $cards,
         ]);
     }
+
+    #[Route('/{id}/edit', name: 'card_edit')]
+public function edit(Request $request, Card $card, EntityManagerInterface $em): Response
+{
+    $form = $this->createForm(CardTypeForm::class, $card);
+    $form->handleRequest($request);
+
+    if ($form->isSubmitted() && $form->isValid()) {
+        $em->flush();
+
+        $this->addFlash('success', 'Visitenkarte aktualisiert.');
+        return $this->redirectToRoute('app_card_show', ['id' => $card->getId()]);
+    }
+
+    return $this->render('card/edit.html.twig', [
+        'form' => $form->createView(),
+        'card' => $card,
+    ]);
+}
+
+    #[Route('/{id}', name: 'card_delete', methods: ['POST'])]
+    public function delete(Request $request, Card $card, EntityManagerInterface $em): Response
+    {
+        if ($this->isCsrfTokenValid('delete' . $card->getId(), $request->request->get('_token'))) {
+            $em->remove($card);
+            $em->flush();
+
+            $this->addFlash('danger', 'Visitenkarte gelöscht.');
+        }
+
+        return $this->redirectToRoute('card_index');
+    }
+
 }

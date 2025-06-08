@@ -1,0 +1,14 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Visitenkarte bearbeiten{% endblock %}
+
+{% block body %}
+<h1>Visitenkarte bearbeiten</h1>
+
+{{ form_start(form, { attr: { enctype: 'multipart/form-data' } }) }}
+    {{ form_widget(form) }}
+    <button class="btn">💾 Speichern</button>
+{{ form_end(form) }}
+
+<a href="{{ path('app_card_show', { id: card.id }) }}">← Zurück zur Karte</a>
+{% endblock %}

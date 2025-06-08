@@ -24,5 +24,9 @@
         <img src="data:image/png;base64,{{ qrCode }}" alt="QR Code zur Visitenkarte" />
     {% endif %}
 
+    <div style="margin-top: 20px;">
+        <a href="{{ path('card_index') }}" class="btn">← Zurück zur Liste</a>
+    </div>
+
 </div>
 {% endblock %}
