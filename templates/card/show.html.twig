@@ -1,0 +1,28 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ card.vorname }} {{ card.nachname }} - Visitenkarte{% endblock %}
+
+{% block body %}
+<div style="max-width: 500px; margin: auto; padding: 20px; border: 1px solid #ddd; border-radius: 10px; text-align: center; font-family: sans-serif;">
+
+    {% if card.photo %}
+        <img src="{{ asset('uploads/photos/' ~ card.photo) }}" alt="Foto von {{ card.vorname }}" style="width: 150px; height: 150px; border-radius: 50%; object-fit: cover; margin-bottom: 20px;">
+    {% endif %}
+
+    <h2>{{ card.vorname }} {{ card.nachname }}</h2>
+
+    {% if card.email %}
+        <p><strong>Email:</strong> <a href="mailto:{{ card.email }}">{{ card.email }}</a></p>
+    {% endif %}
+
+    {% if card.linkedinUrl %}
+        <p><strong>LinkedIn:</strong> <a href="{{ card.linkedinUrl }}" target="_blank">{{ card.linkedinUrl }}</a></p>
+    {% endif %}
+
+    {% if qrCode %}
+        <h3>QR Code</h3>
+        <img src="data:image/png;base64,{{ qrCode }}" alt="QR Code zur Visitenkarte" />
+    {% endif %}
+
+</div>
+{% endblock %}
