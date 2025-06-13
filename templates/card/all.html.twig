@@ -1,45 +1,86 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Mitarbeitendenliste{% endblock %}
+{% block title %}Mitarbeitendenliste
+{% endblock %}
 
 {% block body %}
-<div style="max-width: 1000px; margin: auto; font-family: sans-serif;">
+	<div class="overflow-x-auto">
+		<div style="display: flex; justify-content: space-between; align-items: center;">
+			<h2>Mitarbeitendenliste</h2>
+			<a href="{{ path('card_new') }}" style="background-color: #a1cf63; padding: 10px 20px; color: white; text-decoration: none; border-radius: 4px; font-weight: bold;">
+				+ ERSTELLEN
+			</a>
+		</div>
+		<table
+			class="table">
+			<!-- head -->
+			<thead>
+				<tr>
+					<th>
+						<label>
+							<input type="checkbox" class="checkbox"/>
+						</label>
+					</th>
+					<th>Name</th>
+					<th>Email</th>
+					<th>linkedinUrl</th>
+					<th></th>
+				</tr>
+			</thead>
+			<tbody>
+				<!-- row 1 -->
+				{% for card in cards %}
+					<tr>
+						<th>
+							<label>
+								<input type="checkbox" class="checkbox"/>
+							</label>
+						</th>
+						<td>
+							<div class="flex items-center gap-3">
+								<div class="avatar">
+									<div class="mask mask-squircle h-12 w-12">
+										<img src="{{ asset('uploads/photos/' ~ card.photo) }}" alt="Foto von {{ card.vorname }}"/>
+									</div>
+								</div>
+								<div>
+									<div class="font-bold">{{ card.vorname }}</div>
+									<div class="text-sm opacity-50">{{ card.nachname }}</div>
+								</div>
+							</div>
+						</td>
+						<td>
+							{{ card.email }}
+							<br/>
+							<!-- <span class="badge badge-ghost badge-sm">Desktop Support Technician</span> -->
+						</td>
+						<td>{{ card.linkedinUrl }}</td>
+						<th>
+							<!-- change popover-1 and --anchor-1 names. Use unique names for each dropdown -->
+							<!-- Use card.id to make it unique -->
+								<button class="btn" popovertarget="popover-{{ card.id }}" style="anchor-name:--anchor-{{ card.id }}"> Button
+							</button>
+							<ul class="dropdown menu w-52 rounded-box bg-base-100 shadow-sm" popover id="popover-{{ card.id }}" style="position-anchor:--anchor-{{ card.id }}">
+								<li>
+									<a href="{{ path('app_card_show', { id: card.id }) }}">Details</a>
+								</li>
+								<li>
+									<a href="{{ path('card_edit', { id: card.id }) }}">Edit</a>
+								</li>
+								<li>
+									<form method="post" action="{{ path('card_delete', { id: card.id }) }}">
+										<input type="hidden" name="_token" value="{{ csrf_token('delete' ~ card.id) }}">
+										<button title="Löschen">Delete</button>
+									</form>
+								</li>
+							</ul>
 
-    <div style="display: flex; justify-content: space-between; align-items: center;">
-        <h2>Mitarbeitendenliste</h2>
-        <a href="{{ path('card_new') }}" style="background-color: #a1cf63; padding: 10px 20px; color: white; text-decoration: none; border-radius: 4px; font-weight: bold;">
-            + ERSTELLEN
-        </a>
-    </div>
 
-    <table style="width: 100%; margin-top: 20px; border-collapse: collapse; border: 1px solid #ddd;">
-        <thead style="background-color: #f7f7f7;">
-            <tr>
-                <th style="text-align: left; padding: 12px;">Vorname</th>
-                <th style="text-align: left; padding: 12px;">Nachname</th>
-                <th style="text-align: center; padding: 12px;">Aktionen</th>
-            </tr>
-        </thead>
-        <tbody>
-        {% for card in cards %}
-            <tr style="border-bottom: 1px solid #eee;">
-                <td style="padding: 10px;">{{ card.vorname }}</td>
-                <td style="padding: 10px;">{{ card.nachname }}</td>
-                <td style="padding: 10px; text-align: center;">
-                    <a href="{{ path('app_card_show', { id: card.id }) }}" style="background-color: #51929b; color: white; padding: 6px 10px; margin-right: 5px; border-radius: 4px;" title="Anzeigen">🔍</a>
-                    <a href="{{ path('card_edit', { id: card.id }) }}" style="background-color: #1e1e1e; color: white; padding: 6px 10px; margin-right: 5px; border-radius: 4px;" title="Bearbeiten">✏️</a>
-                    <form method="post" action="{{ path('card_delete', { id: card.id }) }}" style="display:inline;" onsubmit="return confirm('Wirklich löschen?');">
-                        <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ card.id) }}">
-                        <button style="background-color: #bbb; color: white; padding: 6px 10px; border: none; border-radius: 4px;" title="Löschen">🗑️</button>
-                    </form>
-                </td>
-            </tr>
-        {% else %}
-            <tr>
-                <td colspan="4" style="text-align: center; padding: 20px;">Keine Mitarbeitenden gefunden.</td>
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
-</div>
+						</th>
+					</tr>
+				{% endfor %}
+			</tbody>
+		</table>
+	</div>
+
 {% endblock %}
