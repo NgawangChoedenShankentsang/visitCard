@@ -1,32 +1,73 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}{{ card.vorname }} {{ card.nachname }} - Visitenkarte{% endblock %}
+{% block title %}
+	{{ card.vorname }}
+	{{ card.nachname }}
+	- Visitenkarte
+{% endblock %}
 
 {% block body %}
-<div style="max-width: 500px; margin: auto; padding: 20px; border: 1px solid #ddd; border-radius: 10px; text-align: center; font-family: sans-serif;">
+	<div class="relative min-h-screen flex flex-col items-center justify-center">
+		<div class="w-[70%] mx-auto text-center">
+			<h1 class="text-[3rem] font-bold text-neutral-950">
+				Lorem ipsum dolor sit amet.
+			</h1>
+		</div>
+		<div class="absolute -z-10 inset-0 h-full w-full bg-[linear-gradient(to_right,#73737320_1px,transparent_1px),linear-gradient(to_bottom,#73737320_1px,transparent_1px)] bg-[size:20px_20px]"/>
+	</div>
 
-    {% if card.photo %}
-        <img src="{{ asset('uploads/photos/' ~ card.photo) }}" alt="Foto von {{ card.vorname }}" style="width: 150px; height: 150px; border-radius: 50%; object-fit: cover; margin-bottom: 20px;">
-    {% endif %}
+	<div style="max-width: 500px; margin: auto; padding: 20px; border: 1px solid #ddd; border-radius: 10px; text-align: center; font-family: sans-serif;">
 
-    <h2>{{ card.vorname }} {{ card.nachname }}</h2>
+		{% if card.photo %}
+			<img src="{{ asset('uploads/photos/' ~ card.photo) }}" alt="Foto von {{ card.vorname }}" style="width: 150px; height: 150px; border-radius: 50%; object-fit: cover; margin-bottom: 20px;">
+		{% endif %}
 
-    {% if card.email %}
-        <p><strong>Email:</strong> <a href="mailto:{{ card.email }}">{{ card.email }}</a></p>
-    {% endif %}
+		<h2>{{ card.vorname }}
+			{{ card.nachname }}</h2>
 
-    {% if card.linkedinUrl %}
-        <p><strong>LinkedIn:</strong> <a href="{{ card.linkedinUrl }}" target="_blank">{{ card.linkedinUrl }}</a></p>
-    {% endif %}
+		{% if card.email %}
+			<p>
+				<strong>Email:</strong>
+				<a href="mailto:{{ card.email }}">{{ card.email }}</a>
+			</p>
+		{% endif %}
 
-    {% if qrCode %}
-        <h3>QR Code</h3>
-        <img src="data:image/png;base64,{{ qrCode }}" alt="QR Code zur Visitenkarte" />
-    {% endif %}
+		{% if card.linkedinUrl %}
+			<p>
+				<strong>LinkedIn:</strong>
+				<a href="{{ card.linkedinUrl }}" target="_blank">{{ card.linkedinUrl }}</a>
+			</p>
+		{% endif %}
 
-    <div style="margin-top: 20px;">
-        <a href="{{ path('card_index') }}" class="btn">← Zurück zur Liste</a>
-    </div>
+		{% if qrCode %}
+			<h3>QR Code</h3>
+			<img src="data:image/png;base64,{{ qrCode }}" alt="QR Code zur Visitenkarte"/>
+		{% endif %}
 
-</div>
+		<div style="margin-top: 20px;">
+			<a href="{{ path('card_index') }}" class="btn">← Zurück zur Liste</a>
+		</div>
+
+	</div>
+
+
+	<div class="card bg-base-100 w-96 shadow-sm">
+		<figure>
+			<img src="{{ asset('uploads/photos/' ~ card.photo) }}" alt="Foto von {{ card.vorname }}" alt="Shoes"/>
+		</figure>
+		<div class="card-body">
+			<h2 class="card-title">
+				Card Title
+				<div class="badge badge-secondary">NEW</div>
+			</h2>
+			<p>A card component has a figure, a body part, and inside body there are title and actions parts</p>
+			<div class="card-actions justify-end">
+				<div class="avatar">
+					<div class="w-24 rounded-xl">
+						<img src="data:image/png;base64,{{ qrCode }}"/>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
 {% endblock %}
